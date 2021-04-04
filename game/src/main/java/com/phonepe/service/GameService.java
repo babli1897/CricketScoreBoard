@@ -41,10 +41,10 @@ public class GameService {
     {
         Game cricketGame = new Game();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Number of Players in Each team");
+        System.out.println("Number of Players in Each team:");
         Integer noOfPlayers = Integer.parseInt(br.readLine());
         cricketGame.setNoOfPlayersPerTeam(noOfPlayers);
-        System.out.println("Number of Overs");
+        System.out.println("Number of Overs:");
         Integer noOfOvers= Integer.parseInt(br.readLine());
         cricketGame.setNoOfOvers(noOfOvers);
         cricketGame.setTeam1(team1);
@@ -98,7 +98,7 @@ public class GameService {
         otherPlayer.setPlaying(true);
         playerDataService.savePlayers(Arrays.asList(playerInAction,otherPlayer));
         while (overNumber<=game.getNoOfOvers()) {
-            System.out.println("Over "+overNumber);
+            System.out.println("Over "+overNumber+":");
             while (noOfBallsInOver > 0 && wicket < game.getNoOfPlayersPerTeam()) {
                 String ball = br.readLine();
                 if (helperService.isValidBall(ball))

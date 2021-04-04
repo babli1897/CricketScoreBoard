@@ -101,7 +101,7 @@ public class HelperService {
     {
         List<String> battingOrder = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Batting Order for "+team.getName());
+        System.out.println("Batting Order for "+team.getName()+":");
         List<Player> players = new ArrayList<>();
         for(int i=0;i<team.getNoOfPlayers();i++)
         {
@@ -118,7 +118,7 @@ public class HelperService {
 
     void printScoreCard(int overNumber, Team team, int totalScore, int wicket, int noOfBallsInOver)
     {
-        System.out.println("Score Card for "+team.getName());
+        System.out.println("Score Card for "+team.getName()+":");
         StringBuilder output = new StringBuilder();
         output.append(String. format("%-20s", playerName));
         output.append(String.format("%-20s",score));
