@@ -61,6 +61,6 @@ create table `ball`
 `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 primary key(id),
-index `idx_game_id` (game_id)
+index `idx_game_id_batsmen_player_id` (game_id,batsmen_player_id)
 );
 

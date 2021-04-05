@@ -2,6 +2,7 @@ package com.phonepe.service;
 
 import com.phonepe.Constants;
 import com.phonepe.dataservice.*;
+import com.phonepe.dto.TeamResults;
 import com.phonepe.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.javatuples.Pair;
@@ -59,9 +60,9 @@ public class GameService {
         Team team1 = teamDataService.findByGameIdAndTeamName(game.getId(), Constants.team1);
         Team team2 = teamDataService.findByGameIdAndTeamName(game.getId(), Constants.team2);
         createPlayers(team1);
-        int team1Score = playTeam(game,team1);
+        TeamResults team1Score = playTeam(game,team1,Integer.MAX_VALUE);
         createPlayers(team2);
-        int team2Score = playTeam(game, team2);
+        TeamResults team2Score = playTeam(game, team2,team1Score.getScore());
         helperService.declareWinner(team1Score, team2Score);
     }
 
@@ -74,7 +75,7 @@ public class GameService {
         playerDataService.savePlayers(players);
     }
 
-    private void initializeTeam(Game game, String teamName) throws Exception
+    private void initializeTeam(Game game, String teamName)
     {
         Team team = new Team();
         team.setGameId(game.getId());
@@ -86,7 +87,7 @@ public class GameService {
 
 
 
-    private int playTeam(Game game, Team team) throws Exception
+    private TeamResults playTeam(Game game, Team team, int leastScore) throws Exception
     {
         int noOfBallsInOver = noOfBallsPerOver, wicket = 0 , overNumber = 1;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -113,7 +114,7 @@ public class GameService {
                     playerInAction = helperService.getNextPlayer(nextPlayer, playerNames, team.getId());
                     if (playerInAction == null) {
                         helperService.printScoreCard(overNumber,team,totalScore,wicket,noOfBallsInOver);
-                        return totalScore;
+                        return new TeamResults(totalScore,true,game.getNoOfPlayersPerTeam()-wicket);
                     }
                     playerInAction.setPlaying(true);
                     playerDataService.updatePlayer(playerInAction);
@@ -130,12 +131,14 @@ public class GameService {
                     playerInAction = otherPlayer;
                     otherPlayer = tempPlayer;
                 }
+                if(totalScore>leastScore)
+                    return new TeamResults(totalScore,false,game.getNoOfPlayersPerTeam()-wicket);
             }
             helperService.printScoreCard(overNumber,team,totalScore,wicket,noOfBallsInOver);
             noOfBallsInOver = 6;
             overNumber++;
         }
-        return totalScore;
+        return new TeamResults(totalScore,true,game.getNoOfPlayersPerTeam()-wicket);
     }
 
 

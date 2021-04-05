@@ -3,6 +3,7 @@ package com.phonepe.service;
 import com.phonepe.dataservice.BallDataService;
 import com.phonepe.dataservice.PlayerDataService;
 import com.phonepe.dataservice.ScoreDetailsDataService;
+import com.phonepe.dto.TeamResults;
 import com.phonepe.model.Player;
 import com.phonepe.model.Team;
 import org.javatuples.Pair;
@@ -70,9 +71,15 @@ public class HelperService {
         return Integer.parseInt(ball);
     }
 
-    void declareWinner(int team1Score, int team2Score)
+    void declareWinner(TeamResults scoreRunTeam1, TeamResults scoreRunTeam2)
     {
-        if(team1Score>team2Score)
+        int team1Score = scoreRunTeam1.getScore(), team2Score = scoreRunTeam2.getScore();
+        if(team2Score>team1Score && !scoreRunTeam2.isWonByRun())
+        {
+            System.out.println("Result: Team 2 won the match by "+ scoreRunTeam2.getWicketsRemaining()+" wickets");
+        }
+
+        else if(team1Score>team2Score)
         {
             System.out.println("Result: Team 1 won the match by "+ (team1Score-team2Score)+" runs");
         }
